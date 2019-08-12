@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import main.java.stockmarket.Repositories.ShareRepository;
-
+import main.java.stockmarket.responses.ShareNotFoundException;
+import main.java.stockmarket.responses.UserNotFoundException;
 import main.java.stockmarket.Entities.*;
 
 @RestController
@@ -31,7 +32,8 @@ public class ShareController {
 	
 	@GetMapping("/shares/{shareCode}")
 	Share getSpecifiedShare(@PathVariable String shareCode){
-		return repository.getOne(shareCode); // TO DO: Add exception
+		return repository.findById(shareCode)
+				.orElseThrow(() -> new ShareNotFoundException(shareCode));
 	}
 	
 	@PostMapping("/shares")

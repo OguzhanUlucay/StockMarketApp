@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import main.java.stockmarket.Repositories.UserRepository;
-
+import main.java.stockmarket.responses.UserNotFoundException;
 import main.java.stockmarket.Entities.*;
 
 @RestController
@@ -37,8 +37,9 @@ public class UserController {
 	}
 	
 	@GetMapping("/users/{userId}")
-	User getOne(@PathVariable Long id) {
-		return repository.getOne(id);// TO DO: Add exception
+	User getOne(@PathVariable Long userId) {
+		return repository.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException(userId));
 	}
 	
 	@PutMapping("/users/{userId}")
@@ -51,12 +52,12 @@ public class UserController {
 					return repository.save(User);
 					})
 				.orElseGet(() -> {
-					newUser.setId(userId);
+					newUser.setUserId(userId);
 					return repository.save(newUser);
 				});
 	}
 	
-	@DeleteMapping("/users/{userId]}")
+	@DeleteMapping("/users/{userId}")
 	void deleteEmployee(@PathVariable Long id) {
 		repository.deleteById(id);
 	}
