@@ -10,20 +10,34 @@ import main.java.stockmarket.Entities.Share;
 import main.java.stockmarket.Entities.User;
 import main.java.stockmarket.Entities.UserShareKey;
 
-public class userShareDto {
+public class ShareDto {
 
 	private String shareCode;
 	private String shareName;
+	private String date;
 	private double price;
 	private int count;
 	
-	public userShareDto(String shareCode, String shareName, double price, int count) {
+	public ShareDto(String shareCode, String shareName, double price, int count, String date) {
 		super();
 		this.shareCode = shareCode;
 		this.shareName = shareName;
+		this.date = date;
 		this.price = price;
 		this.count = count;
 	}
+	
+	public ShareDto() {}
+	
+	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	public String getShareCode() {
 		return shareCode;
 	}
