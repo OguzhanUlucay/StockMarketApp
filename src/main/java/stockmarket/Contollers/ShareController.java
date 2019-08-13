@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import main.java.stockmarket.Repositories.ShareRepository;
@@ -59,9 +60,14 @@ public class ShareController {
 				});
 	}
 	
-	@DeleteMapping("/shares/{id}")
+	@DeleteMapping("/shares/{shareCode}")
 	void deleteShare(@PathVariable String shareCode) {
-		repository.deleteById(shareCode);
+		try {
+			shareHandler.deleteAllInfoOfShare(shareCode);
+			repository.deleteById(shareCode);
+		} catch (Exception e) {
+			throw new ShareNotFoundException(shareCode);
+		}
 	}
 	
 	@GetMapping("/shares/sharesBook")
@@ -78,4 +84,14 @@ public class ShareController {
 			throw new ShareNotFoundException(shareCode);
 	}
 	
+	@DeleteMapping("/shares/sharesBook/{shareCode}")
+	List<ShareDto> deleteSpecifiedInfoSingleShare(@PathVariable String shareCode, @RequestParam int index ) {
+		List<ShareDto> shareInfoList = shareHandler.getShareInfoList(shareCode);
+		if(index > 0 && shareInfoList.size() >= (index-1)) {
+			shareInfoList.remove(index-1);
+			return shareInfoList;
+		}
+		else
+			throw new ShareNotFoundException(shareCode);
+	}
 }

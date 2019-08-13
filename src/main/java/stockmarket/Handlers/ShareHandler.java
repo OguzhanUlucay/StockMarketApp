@@ -64,7 +64,12 @@ public class ShareHandler {
 		return resultList;
 	}
 
-	
+	public void deleteAllInfoOfShare(String shareCode) {
+		if(shareInformations.containsKey(shareCode))
+			shareInformations.remove(shareCode);
+		else 
+			throw new IllegalArgumentException("There is no share with specified code");
+	}
 
 //	private <T> generateRandomValue(){
 //		
