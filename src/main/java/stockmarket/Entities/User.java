@@ -1,18 +1,33 @@
 package main.java.stockmarket.Entities;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User {
 
-	private @Id @GeneratedValue Long id;
+	private @Id @GeneratedValue Long userId;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String userType;
 	
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE})
+	private Set<UserShare> userShare;
+	
+	public Set<UserShare> getUserShare() {
+		return userShare;
+	}
+
+	public void setUserShare(Set<UserShare> userShare) {
+		this.userShare = userShare;
+	}
+
 	public User(){}
 
 	public User(String firstName, String lastName, String email, String userType) {
@@ -31,12 +46,12 @@ public class User {
 		this.userType = userType;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserId(Long id) {
+		this.userId = id;
 	}
 
 	public String getFirstName() {

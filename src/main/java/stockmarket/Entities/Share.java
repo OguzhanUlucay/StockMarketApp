@@ -1,8 +1,12 @@
 package main.java.stockmarket.Entities;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Share {
@@ -10,11 +14,20 @@ public class Share {
 	private @Id String shareCode;
 	private String shareName;
 	
+	@OneToMany(mappedBy = "share", cascade = {CascadeType.MERGE})
+	private Set<UserShare> userShare;
+	
 	public Share() {}
 	public Share(String shareCode, String shareName) {
 		super();
 		this.shareCode = shareCode;
 		this.shareName = shareName;
+	}
+	public Set<UserShare> getUserShare() {
+		return userShare;
+	}
+	public void setUserShare(Set<UserShare> userShare) {
+		this.userShare = userShare;
 	}
 	public String getShareCode() {
 		return shareCode;
