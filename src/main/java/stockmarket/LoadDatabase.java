@@ -13,8 +13,8 @@ public class LoadDatabase {
 	@Bean
 	CommandLineRunner initDatabase(UserRepository repository,ShareRepository shareRepository, ShareHandler shareHandler) {
 		return args -> {
-			repository.save(new User("Oguzhan","Ulucay", "oguzhanulucay@gmail.com","admin"));
-		    repository.save(new User("User1","UserLast1","user1@gmail.com","user"));
+			repository.save(new User("user", "Oguzhan","Ulucay", "oguzhanulucay@gmail.com","password", new String[]{"ROLE_USER"}));
+		    repository.save(new User("admin","AdminName","AdminLast", "admin@gmail.com","password",new String[] {"ROLE_USER","ROLE_ADMIN"}));
 		    shareRepository.save(new Share("NETAS","NETAS TELEKOM"));
 		    shareRepository.save(new Share("THY","TURK HAVA YOLLARI"));
 		    shareHandler.createNewShareInfo("NETAS","NETAS TELEKOM");
