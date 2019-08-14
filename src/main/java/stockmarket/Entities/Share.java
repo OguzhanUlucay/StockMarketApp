@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Share {
 
@@ -15,6 +17,7 @@ public class Share {
 	private String shareName;
 	
 	@OneToMany(mappedBy = "share", cascade = {CascadeType.MERGE})
+	@JsonIgnore
 	private Set<UserShare> userShare;
 	
 	public Share() {}

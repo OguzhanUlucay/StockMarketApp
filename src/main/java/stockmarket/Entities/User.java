@@ -8,16 +8,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 
+	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 	private @Id @GeneratedValue Long userId;
+	private String userName;
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String userType;
+	
+	@JsonIgnore
+    private String password;
+	private String[] userRoles;
 	
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE})
+	@JsonIgnore
 	private Set<UserShare> userShare;
 	
 	public Set<UserShare> getUserShare() {
@@ -30,20 +41,40 @@ public class User {
 
 	public User(){}
 
-	public User(String firstName, String lastName, String email, String userType) {
+	public User(String userName, String firstName, String lastName, String email, String password,
+			String[] userRoles) {
 		super();
+		this.userName = userName;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.userType = userType;
+		setPassword(password);
+		this.userRoles = userRoles;
 	}
 	
-	public String getUserType() {
-		return userType;
+	
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUserType(String userType) {
-		this.userType = userType;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	private void setPassword(String password) {
+		this.password = PASSWORD_ENCODER.encode(password);
+	}
+
+	public String[] getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(String[] userRoles) {
+		this.userRoles = userRoles;
 	}
 
 	public Long getUserId() {
