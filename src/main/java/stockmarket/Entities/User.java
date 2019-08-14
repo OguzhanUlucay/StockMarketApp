@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,13 +19,20 @@ public class User {
 
 	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 	private @Id @GeneratedValue Long userId;
+	@NotEmpty
 	private String userName;
+	@NotEmpty
 	private String firstName;
+	@NotEmpty
 	private String lastName;
+	@NotEmpty
 	private String email;
 	
 	@JsonIgnore
+	@NotEmpty
     private String password;
+	
+	@NotEmpty
 	private String[] userRoles;
 	
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE})

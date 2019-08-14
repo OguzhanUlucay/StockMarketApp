@@ -2,6 +2,7 @@ package main.java.stockmarket.Contollers;
 
 import java.util.List;
 
+import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +36,7 @@ public class UserController {
 	
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
-	User newUser(@RequestBody User newUser) {
+	User newUser(@Valid @RequestBody User newUser) {
 		return repository.save(newUser);
 	}
 	

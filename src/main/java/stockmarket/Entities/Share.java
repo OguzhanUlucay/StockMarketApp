@@ -7,13 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Share {
 
+	@NotEmpty
 	private @Id String shareCode;
+	
+	@NotEmpty
 	private String shareName;
 	
 	@OneToMany(mappedBy = "share", cascade = {CascadeType.MERGE})
